@@ -7,3 +7,6 @@
 !extensions/pi-permission-system/
 !extensions/pi-permission-system/*
 extensions/pi-permission-system/logs
+!agents/
+!agents/*
+!APPEND_SYSTEM.md
