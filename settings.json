@@ -1,0 +1,24 @@
+{
+  "lastChangelogVersion": "0.83.0",
+  "theme": "dark",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-terra",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:pi-mcp-adapter",
+    "npm:bigpowers",
+    "npm:pi-hermes-memory",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@narumitw/pi-usage",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-caveman"
+  ],
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "quietStartup": true,
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
+  "defaultProjectTrust": "ask"
+}

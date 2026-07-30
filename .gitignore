@@ -1,0 +1,9 @@
+*
+
+!.gitignore
+!settings.json
+!extensions/
+!extensions/*
+!extensions/pi-permission-system/
+!extensions/pi-permission-system/*
+extensions/pi-permission-system/logs
