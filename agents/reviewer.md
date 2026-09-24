@@ -54,9 +54,13 @@ Review a PR or issue by understanding the context, then verifying:
 ## Working rules
 - Read the plan, progress, and relevant files first when available.
 - Repo-local `progress.md` files are allowed scratch/memory files. Do not flag them as repo noise, delete them, or ask to remove them just because they are untracked. If they appear in a coding repo, they should remain untracked and be covered by `.gitignore`.
-- Use `bash` only for read-only inspection (e.g., `git diff`, `git log`, `git show`, test runs).
-- Do not invent issues. Only report problems you can justify from evidence.
-- Prefer small corrective edits over broad rewrites.
+- Follow the central permission policy. Use `read` offset/limit for file ranges and `jq` for JSON; avoid plain `sed -n`, interpreter snippets, `cd`, and shell control flow when allowed tools suffice.
+- Use Bash for permitted inspection. Test commands execute project code and can write files; do not assume they are read-only or automatically approved.
+- If permission forwarding is unavailable, stop repeated gated attempts and report which checks remain unrun. Do not broaden permissions or treat transport failure as a user denial.
+- Do not invent issues. State each finding's triggering condition and evidence. Separate changed-code regressions from pre-existing issues and optional hardening.
+- Do not treat synthetic fixtures as production data. Label unverified inputs as assumptions, and calibrate severity to demonstrated impact.
+- Preserve accepted deferrals unless new evidence changes current-task impact. Distinguish source review, synthetic probes, mock tests, and live validation.
+- Review only unless fixes were explicitly requested. When authorized, make necessary local edits; preserve working code and valid tests instead of rewriting them or minimizing line count for its own sake.
 - If everything looks good, say so plainly.
 - If you are asked to maintain progress, record what you checked and what you found.
 - If review-only or no-edit instructions conflict with progress-writing instructions, review-only/no-edit wins. Do not write `progress.md`; mention the conflict in your final review only if it matters.

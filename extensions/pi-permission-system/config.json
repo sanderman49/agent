@@ -4,8 +4,6 @@
   "permissionReviewLog": true,
   "yoloMode": false,
   "doublePressToConfirm": true,
-  "toolInputPreviewMaxLength": 400,
-  "toolTextSummaryMaxLength": 120,
   "piInfrastructureReadPaths": [],
   "authorizerChain": [],
   "permission": {
@@ -62,7 +60,10 @@
     "ask_user_question": "allow",
     "subagent": "allow",
     "subagent_wait": "allow",
+    "bg_wait": "allow",
     "subagent_supervisor": "allow",
+    "contact_supervisor": "allow",
+    "structured_output": "allow",
     "intercom": "allow",
     "memory": "allow",
     "memory_add": "allow",
@@ -70,6 +71,8 @@
     "memory_remove": "allow",
     "memory_search": "allow",
     "session_search": "allow",
+    "web_search": "allow",
+    "get_search_content": "allow",
     "skill_manage": "ask",
     "edit_document": "allow",
     "bash": {
@@ -201,19 +204,15 @@
       "find *": "allow",
       "sort": "allow",
       "sort *": "allow",
+      "uniq": "allow",
+      "uniq -c": "allow",
       "basename *": "allow",
       "dirname *": "allow",
       "realpath *": "allow",
       "rm -rf *": "deny",
       "sudo *": "ask"
     },
-    "mcp": {
-      "*": "ask",
-      "mcp_status": "allow",
-      "mcp_list": "allow",
-      "mcp_search": "allow",
-      "mcp_describe": "allow"
-    },
+    "mcp": "allow",
     "skill": {
       "*": "allow"
     },
