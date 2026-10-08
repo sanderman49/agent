@@ -27,7 +27,7 @@ function saveConfig(path: string, config: JsonObject): void {
   renameSync(tmp, path);
 }
 
-async function toggleYolo(ctx: ExtensionContext, reloadAfterToggle = false): Promise<void> {
+function toggleYolo(ctx: ExtensionContext): boolean {
   const path = configPath();
   try {
     const config = readConfig(path);
@@ -36,26 +36,62 @@ async function toggleYolo(ctx: ExtensionContext, reloadAfterToggle = false): Pro
     saveConfig(path, config);
 
     ctx.ui.setStatus("pi-permission-system", next ? "yolo" : undefined);
-    if (reloadAfterToggle) {
-      const maybeReload = (ctx as ExtensionContext & { reload?: () => Promise<void> }).reload;
-      if (typeof maybeReload === "function") {
-        await maybeReload.call(ctx);
-      }
-    }
+    return true;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     ctx.ui.notify(`Failed to toggle permission-system YOLO mode: ${message}`, "error");
+    return false;
   }
 }
 
 export default function (pi: ExtensionAPI) {
+  let timer: ReturnType<typeof setInterval> | undefined;
+
+  function stopWatching(): void {
+    if (timer !== undefined) clearInterval(timer);
+    timer = undefined;
+  }
+
+  pi.on("session_start", (_event, ctx) => {
+    stopWatching();
+    const path = configPath();
+    let lastError: string | undefined;
+
+    function syncStatus(): void {
+      try {
+        const config = readConfig(path);
+        ctx.ui.setStatus("pi-permission-system", config.yoloMode === true ? "yolo" : undefined);
+        lastError = undefined;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        if (message !== lastError) {
+          ctx.ui.notify(`Cannot read permission-system config; waiting for a valid file: ${message}`, "warning");
+          lastError = message;
+        }
+      }
+    }
+
+    syncStatus();
+    // Only sync the indicator. The permission system refreshes config before
+    // the next agent turn; no reload or injected user message is needed.
+    // Reading the path also handles atomic saves and temporarily invalid JSON.
+    timer = setInterval(syncStatus, 500);
+    timer.unref();
+  });
+
+  pi.on("session_shutdown", stopWatching);
+
   pi.registerShortcut("ctrl+/", {
     description: "Toggle pi-permission-system YOLO mode",
-    handler: async (ctx) => toggleYolo(ctx, true),
+    handler: (ctx) => {
+      toggleYolo(ctx);
+    },
   });
 
   pi.registerCommand("toggle-yolo", {
     description: "Toggle pi-permission-system YOLO mode",
-    handler: async (_args, ctx) => toggleYolo(ctx, true),
+    handler: async (_args, ctx) => {
+      toggleYolo(ctx);
+    },
   });
 }

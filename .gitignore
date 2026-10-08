@@ -10,3 +10,5 @@ extensions/pi-permission-system/logs
 !agents/
 !agents/*
 !APPEND_SYSTEM.md
+!tests/
+!tests/*.test.mjs
