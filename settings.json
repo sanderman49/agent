@@ -1,6 +1,6 @@
 {
   "collapseChangelog": true,
-  "defaultModel": "gpt-6.1",
+  "defaultModel": "gpt-6.1-sol",
   "defaultProjectTrust": "ask",
   "defaultProvider": "openai",
   "defaultThinkingLevel": "medium",
@@ -11,7 +11,10 @@
     "npm:pi-web-access",
     "npm:pi-subagents",
     "npm:pi-mcp-adapter",
-    "npm:bigpowers",
+    {
+      "source": "npm:bigpowers",
+      "extensions": []
+    },
     "npm:@gotgenes/pi-permission-system",
     "npm:@narumitw/pi-usage",
     "npm:@juicesharp/rpiv-ask-user-question",
